@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ABC Fun Game</title>
+<style>
+body{margin:0;font-family:Comic Sans MS,Arial,sans-serif;background:linear-gradient(135deg,#ffecd2,#fcb69f);text-align:center}
+header{padding:25px;background:#ff6f61;color:#fff;border-bottom-left-radius:40px;border-bottom-right-radius:40px}
+.game-box{margin:40px auto;width:90%;max-width:600px;background:#fff;border-radius:30px;padding:30px;box-shadow:0 10px 25px rgba(0,0,0,.2)}
+.kid{font-size:90px}.letter{font-size:100px;color:#4a90e2;font-weight:bold}
+button{font-size:22px;padding:15px 25px;margin:10px;border:none;border-radius:20px;background:#ffd166;cursor:pointer}
+.message{font-size:28px;font-weight:bold;margin-top:20px}
+</style>
+</head>
+<body>
+<header><h1>ABC Fun Game</h1><p>Help the kid find the correct letter!</p></header>
+<div class="game-box">
+<div class="kid">👧🎒</div>
+<h2>Find this letter:</h2>
+<div class="letter" id="targetLetter">A</div>
+<div id="options"></div>
+<div class="message" id="message"></div>
+<button onclick="newQuestion()">Next Letter</button>
+</div>
+<script>
+const letters="ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+let currentLetter="A";
+function newQuestion(){
+document.getElementById("message").innerText="";
+currentLetter=letters[Math.floor(Math.random()*letters.length)];
+document.getElementById("targetLetter").innerText=currentLetter;
+let options=[currentLetter];
+while(options.length<4){
+let r=letters[Math.floor(Math.random()*letters.length)];
+if(!options.includes(r)) options.push(r);
+}
+options.sort(()=>Math.random()-0.5);
+const box=document.getElementById("options");
+box.innerHTML="";
+options.forEach(letter=>{
+const btn=document.createElement("button");
+btn.innerText=letter;
+btn.onclick=()=>checkAnswer(letter);
+box.appendChild(btn);
+});
+}
+function checkAnswer(selected){
+const msg=document.getElementById("message");
+if(selected===currentLetter){msg.innerText="Great Job! 🎉";}
+else{msg.innerText="Oops! Try Again 😊";}
+}
+newQuestion();
+</script>
+</body>
+</html>
